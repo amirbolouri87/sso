@@ -1,0 +1,50 @@
+version: '3.3'
+
+secrets:
+  JWT_SECRET:
+    file: ./data/authelia/secrets/JWT_SECRET
+
+services:
+  authelia:
+    image: authelia/authelia
+    container_name: authelia_service
+    volumes:
+      - ./data/authelia/config:/config
+    secrets: [JWT_SECRET]
+    environment:
+      AUTHELIA_JWT_SECRET_FILE: /run/secrets/JWT_SECRET
+    ports:
+      - "9091:9091"
+    depends_on:
+      - redis
+      - database
+    networks:
+      - sso
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - sso
+
+  database:
+    image: postgres
+#    restart: always
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: root
+      listen_addresses: '*'
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - sso
+
+volumes:
+  pgdata:
+
+networks:
+  sso:
+    driver: bridge

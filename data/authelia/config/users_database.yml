@@ -1,0 +1,7 @@
+users:
+    claim:
+        password: $argon2id$v=19$m=1048576,t=1,p=1$Nb1E7s/VhsoMLS8PALHisw$nVio0U+7tjICAwd9Tld9JC+ix46MrrOf7E9X8IzKQsI
+        displayname: claim
+        email: amir.bolury66@gmail.com
+        groups: []
+        disabled: false
